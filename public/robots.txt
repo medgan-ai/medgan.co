@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://medgan.io/sitemap.xml
+
+# Block development files
+Disallow: /_next/
+Disallow: /api/
+
+# Allow important pages
+Allow: /
+Allow: /services/
+Allow: /about
+Allow: /case-studies
+Allow: /blog
+Allow: /careers
+Allow: /contact
