@@ -74,7 +74,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={poppins.variable}>
       <head>
-        {/* Structured Data for SEO */}
+        {/* Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -106,7 +106,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased" suppressHydrationWarning={true}>
-        {/* Google Analytics Scripts */}
+        {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"
           strategy="afterInteractive"
@@ -120,7 +120,6 @@ export default function RootLayout({
           `}
         </Script>
         
-        {/* Page Layout */}
         <Header />
         <main className="min-h-screen">
           {children}
