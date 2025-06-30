@@ -1,8 +1,15 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
+    // Check if database URL is configured
+    if (!process.env.DATABASE_URL) {
+      console.error('DATABASE_URL not configured')
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
+    }
+
+    // Lazy load Prisma to avoid initialization issues
+    const { prisma } = await import('@/lib/prisma')
     const caseStudies = await prisma.caseStudy.findMany({
       where: { isPublished: true },
       orderBy: { order: 'asc' }
@@ -101,6 +108,14 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    // Check if database URL is configured
+    if (!process.env.DATABASE_URL) {
+      console.error('DATABASE_URL not configured')
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
+    }
+
+    // Lazy load Prisma to avoid initialization issues
+    const { prisma } = await import('@/lib/prisma')
     const body = await request.json()
     const { 
       title,

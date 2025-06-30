@@ -1,11 +1,18 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Check if database URL is configured
+    if (!process.env.DATABASE_URL) {
+      console.error('DATABASE_URL not configured')
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
+    }
+
+    // Lazy load Prisma to avoid initialization issues
+    const { prisma } = await import('@/lib/prisma')
     const { id: jobId } = await params
 
     const jobPosting = await prisma.jobPosting.findUnique({

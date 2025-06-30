@@ -1,8 +1,15 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
+    // Check if database URL is configured
+    if (!process.env.DATABASE_URL) {
+      console.error('DATABASE_URL not configured')
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
+    }
+
+    // Lazy load Prisma to avoid initialization issues
+    const { prisma } = await import('@/lib/prisma')
     // Try to get stats from database
     const stats = await prisma.websiteStats.findFirst({
       orderBy: { updatedAt: 'desc' }
