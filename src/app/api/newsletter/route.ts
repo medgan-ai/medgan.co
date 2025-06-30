@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { supabase } from '@/integrations/supabase/client'
+
+// Simple CUID-like ID generator that matches the format in your database
+function generateCuid(): string {
+  const timestamp = Date.now().toString(36);
+  const randomPart1 = Math.random().toString(36).substring(2, 8);
+  const randomPart2 = Math.random().toString(36).substring(2, 8);
+  const randomPart3 = Math.random().toString(36).substring(2, 8);
+  return `cmc${timestamp}${randomPart1}${randomPart2}${randomPart3}`;
+}
 
 export async function POST(request: NextRequest) {
   try {
-    // Check if database is configured
-    if (!process.env.DATABASE_URL) {
-      return NextResponse.json({ error: 'Database not configured' }, { status: 503 })
-    }
-
-    // Lazy load Prisma
-    const { prisma } = await import('@/lib/prisma')
-    
     const body = await request.json()
     const { email, source } = body
 
@@ -30,12 +32,21 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if email already exists
-    const existingSubscription = await prisma.newsletterSubscription.findUnique({
-      where: { email }
-    })
+    // Check if email already exists using Supabase client
+    const { data: existingSubscription, error: findError } = await supabase
+      .from('newsletter_subscriptions')
+      .select('*')
+      .eq('email', email)
+      .maybeSingle() // Use maybeSingle instead of single to avoid error when no record found
 
-    if (existingSubscription) {
+    if (findError) {
+      console.error('Newsletter subscription error:', findError)
+      return NextResponse.json(
+        { error: 'Database error occurred' },
+        { status: 500 }
+      )
+    }    if (existingSubscription) {
+      // Check the isActive field (camelCase as shown in the database)
       if (existingSubscription.isActive) {
         return NextResponse.json(
           { error: 'Email is already subscribed' },
@@ -43,23 +54,49 @@ export async function POST(request: NextRequest) {
         )
       } else {
         // Reactivate subscription
-        await prisma.newsletterSubscription.update({
-          where: { email },
-          data: { isActive: true, updatedAt: new Date() }
-        })
-      }
-    } else {
-      // Create new subscription
-      await prisma.newsletterSubscription.create({
-        data: {
+        const { error: updateError } = await supabase
+          .from('newsletter_subscriptions')
+          .update({ isActive: true })
+          .eq('email', email)
+
+        if (updateError) {
+          console.error('Newsletter subscription error:', updateError)
+          return NextResponse.json(
+            { error: 'Failed to reactivate subscription' },
+            { status: 500 }
+          )
+        }
+
+        console.log('✅ Newsletter subscription reactivated:', email)
+        return NextResponse.json(
+          { 
+            message: 'Welcome back! Your subscription has been reactivated.',
+            success: true 
+          },
+          { status: 200 }
+        )
+      }    } else {      // Create new subscription with proper CUID ID
+      const { error: insertError } = await supabase
+        .from('newsletter_subscriptions')
+        .insert({
+          id: generateCuid(),
           email,
           source: source || 'website',
-          isActive: true
-        }
-      })
-    }
+          isActive: true,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        })
 
-    console.log('✅ Newsletter subscription saved:', email)
+      if (insertError) {
+        console.error('Newsletter subscription error:', insertError)
+        return NextResponse.json(
+          { error: 'Failed to create subscription' },
+          { status: 500 }
+        )
+      }
+
+      console.log('✅ Newsletter subscription created:', email)
+    }
 
     // TODO: Send welcome email
     // TODO: Integrate with email marketing platform (Mailchimp, ConvertKit, etc.)
