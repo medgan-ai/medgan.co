@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
@@ -7,6 +6,9 @@ export async function GET() {
     if (!process.env.DATABASE_URL) {
       return NextResponse.json({ error: 'Database not configured' }, { status: 503 })
     }
+
+    // Lazy load Prisma only when needed (not during build)
+    const { prisma } = await import('@/lib/prisma')
 
     // TODO: Add authentication check
     // const session = await getServerSession(authOptions)

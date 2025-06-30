@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if database is configured
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 })
+    }
+
+    // Lazy load Prisma
+    const { prisma } = await import('@/lib/prisma')
+    
     const body = await request.json()
     const { email, source } = body
 
