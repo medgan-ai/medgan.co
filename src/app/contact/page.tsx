@@ -12,6 +12,8 @@ export default function ContactPage() {
     company: '',
     phone: '',
     service: '',
+    budget: '',
+    timeline: '',
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -88,6 +90,24 @@ export default function ContactPage() {
     "Machine Learning Development",
     "Process Automation",
     "Other"
+  ]
+
+  const budgets = [
+    "Under $50K",
+    "$50K - $100K",
+    "$100K - $250K",
+    "$250K - $500K",
+    "$500K+",
+    "To be discussed"
+  ]
+
+  const timelines = [
+    "ASAP",
+    "1-3 months",
+    "3-6 months", 
+    "6-12 months",
+    "12+ months",
+    "Flexible"
   ]
 
   if (isSubmitted) {
@@ -292,6 +312,44 @@ export default function ContactPage() {
                   </select>
                 </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="budget" className="block text-sm font-semibold text-gray-900 mb-2">
+                      Project Budget
+                    </label>
+                    <select
+                      id="budget"
+                      name="budget"
+                      value={formData.budget}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-white text-gray-900"
+                    >
+                      <option value="" className="text-gray-500">Select budget range</option>
+                      {budgets.map((budget) => (
+                        <option key={budget} value={budget} className="text-gray-900">{budget}</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="timeline" className="block text-sm font-semibold text-gray-900 mb-2">
+                      Project Timeline
+                    </label>
+                    <select
+                      id="timeline"
+                      name="timeline"
+                      value={formData.timeline}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-white text-gray-900"
+                    >
+                      <option value="" className="text-gray-500">Select timeline</option>
+                      {timelines.map((timeline) => (
+                        <option key={timeline} value={timeline} className="text-gray-900">{timeline}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
                 <div>
                   <label htmlFor="message" className="block text-sm font-semibold text-gray-900 mb-2">
                     Project Details *
@@ -465,9 +523,9 @@ export default function ContactPage() {
                 q: "What's the typical ROI timeline for AI projects?",
                 a: "Most clients see full return on investment within 3-6 months, with many experiencing benefits immediately after deployment."
               }
-            ].map((faq, index) => (
+            ].map((faq) => (
               <motion.div
-                key={index}
+                key={faq.q}
                 variants={fadeInUp}
                 className="bg-white rounded-lg p-6 shadow-md"
               >

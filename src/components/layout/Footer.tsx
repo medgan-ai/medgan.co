@@ -1,8 +1,46 @@
+'use client'
+
 import Link from 'next/link'
+import { useState } from 'react'
 import { Facebook, Twitter, Linkedin, Github, Mail, Phone, MapPin } from 'lucide-react'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
+  const [emailInput, setEmailInput] = useState('')
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!emailInput.trim()) return
+
+    setNewsletterStatus('loading')
+
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          email: emailInput.trim(),
+          source: 'footer'
+        }),
+      })
+
+      if (response.ok) {
+        setNewsletterStatus('success')
+        setEmailInput('')
+      } else {
+        setNewsletterStatus('error')
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error)
+      setNewsletterStatus('error')
+    }
+
+    // Reset status after 3 seconds
+    setTimeout(() => setNewsletterStatus('idle'), 3000)
+  }
 
   const footerSections = [
     {
@@ -112,16 +150,30 @@ const Footer = () => {
             <p className="text-gray-300 text-sm mb-4">
               Get the latest insights on AI technology and industry trends.
             </p>
-            <div className="flex">
+            <form onSubmit={handleNewsletterSubmit} className="flex">
               <input
                 type="email"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#1230AE] text-sm"
+                disabled={newsletterStatus === 'loading'}
+                className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#1230AE] text-sm disabled:opacity-50"
+                required
               />
-              <button className="bg-gradient-to-r from-[#1230AE] to-[#6C48C5] px-6 py-2 rounded-r-lg hover:shadow-lg transition-all duration-300 text-sm">
-                Subscribe
+              <button 
+                type="submit"
+                disabled={newsletterStatus === 'loading' || !emailInput.trim()}
+                className="bg-gradient-to-r from-[#1230AE] to-[#6C48C5] px-6 py-2 rounded-r-lg hover:shadow-lg transition-all duration-300 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {newsletterStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
               </button>
-            </div>
+            </form>
+            {newsletterStatus === 'success' && (
+              <p className="text-green-400 text-sm mt-2">✓ Successfully subscribed!</p>
+            )}
+            {newsletterStatus === 'error' && (
+              <p className="text-red-400 text-sm mt-2">Error subscribing. Please try again.</p>
+            )}
           </div>
         </div>
       </div>

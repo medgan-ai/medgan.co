@@ -175,8 +175,8 @@ export default function AITransformationPage() {
                 <h3 className="text-xl font-bold text-gray-900 mb-4">{area.title}</h3>
                 <p className="text-gray-600 mb-6 leading-relaxed">{area.description}</p>
                 <ul className="space-y-2">
-                  {area.benefits.map((benefit, benefitIndex) => (
-                    <li key={benefitIndex} className="flex items-center space-x-3">
+                  {area.benefits.map((benefit) => (
+                    <li key={benefit} className="flex items-center space-x-3">
                       <div className="w-2 h-2 bg-secondary rounded-full"></div>
                       <span className="text-sm text-gray-700">{benefit}</span>
                     </li>
@@ -233,8 +233,8 @@ export default function AITransformationPage() {
                     <div className="lg:col-span-1">
                       <h4 className="font-semibold text-gray-900 mb-4">Key Deliverables:</h4>
                       <ul className="space-y-2">
-                        {phase.deliverables.map((deliverable, delIndex) => (
-                          <li key={delIndex} className="flex items-center space-x-3">
+                        {phase.deliverables.map((deliverable) => (
+                          <li key={deliverable} className="flex items-center space-x-3">
                             <div className="w-2 h-2 bg-primary rounded-full"></div>
                             <span className="text-sm text-gray-700">{deliverable}</span>
                           </li>
@@ -290,8 +290,8 @@ export default function AITransformationPage() {
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-4">Results:</h4>
                     <ul className="space-y-2">
-                      {story.results.map((result, resultIndex) => (
-                        <li key={resultIndex} className="flex items-center space-x-3">
+                      {story.results.map((result) => (
+                        <li key={result} className="flex items-center space-x-3">
                           <div className="w-2 h-2 bg-secondary rounded-full"></div>
                           <span className="text-sm text-gray-700">{result}</span>
                         </li>

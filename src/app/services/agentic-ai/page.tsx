@@ -209,8 +209,8 @@ export default function AgenticAIPage() {
                       <h3 className="text-2xl font-bold text-gray-900 mb-4">{useCase.title}</h3>
                       <p className="text-gray-600 mb-6 leading-relaxed">{useCase.description}</p>
                       <div className="space-y-2">
-                        {useCase.benefits.map((benefit, benefitIndex) => (
-                          <div key={benefitIndex} className="flex items-center space-x-3">
+                        {useCase.benefits.map((benefit) => (
+                          <div key={benefit} className="flex items-center space-x-3">
                             <div className="w-2 h-2 bg-primary rounded-full"></div>
                             <span className="text-gray-700">{benefit}</span>
                           </div>

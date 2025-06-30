@@ -9,13 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^6.10.1",
     "@react-three/drei": "^10.3.0",
     "@react-three/fiber": "^9.1.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "framer-motion": "^12.19.2",
     "lucide-react": "^0.525.0",
     "next": "15.3.4",
+    "prisma": "^6.10.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.3.1",
     "three": "^0.177.0"
   },
   "devDependencies": {
@@ -25,11 +30,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.177.0",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
-    "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

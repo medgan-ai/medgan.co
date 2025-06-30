@@ -1,0 +1,202 @@
+// Prisma schema for MedGAN website data management
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Contact form submissions
+model ContactSubmission {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  company     String?
+  phone       String?
+  message     String
+  service     String?  // Which service they're interested in
+  budget      String?
+  timeline    String?
+  status      SubmissionStatus @default(NEW)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("contact_submissions")
+}
+
+// Job applications
+model JobApplication {
+  id          String   @id @default(cuid())
+  jobId       String
+  jobTitle    String
+  firstName   String
+  lastName    String
+  email       String
+  phone       String
+  resumeUrl   String?
+  coverLetter String?
+  linkedin    String?
+  portfolio   String?
+  experience  String
+  education   String
+  skills      String[] // Array of skills
+  salary      String?
+  availability String?
+  status      ApplicationStatus @default(SUBMITTED)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("job_applications")
+}
+
+// Dynamic website content
+model WebsiteStats {
+  id                String   @id @default(cuid())
+  projectsDelivered Int      @default(50)
+  enterpriseClients Int      @default(25)
+  clientSatisfaction String   @default("99%")
+  countriesServed   Int      @default(15)
+  updatedAt         DateTime @updatedAt
+  
+  @@map("website_stats")
+}
+
+// Customer testimonials
+model Testimonial {
+  id          String   @id @default(cuid())
+  quote       String
+  authorName  String
+  authorPosition String
+  company     String
+  authorImage String?
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("testimonials")
+}
+
+// Case studies
+model CaseStudy {
+  id          String   @id @default(cuid())
+  title       String
+  subtitle    String?
+  client      String
+  industry    String
+  challenge   String
+  solution    String
+  results     String[]
+  imageUrl    String?
+  isPublished Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("case_studies")
+}
+
+// Job postings
+model JobPosting {
+  id              String   @id @default(cuid())
+  title           String
+  department      String
+  location        String
+  type            String   // Full-time, Part-time, Contract
+  salary          String?
+  description     String
+  requirements    String[]
+  responsibilities String[]
+  benefits        String[]
+  isActive        Boolean  @default(true)
+  applicationCount Int     @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("job_postings")
+}
+
+// Newsletter subscriptions
+model NewsletterSubscription {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  source    String?  // Where they subscribed from
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("newsletter_subscriptions")
+}
+
+// Blog posts
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String
+  imageUrl    String?
+  authorName  String
+  authorImage String?
+  tags        String[]
+  isPublished Boolean  @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("blog_posts")
+}
+
+// Admin users
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  role      AdminRole @default(EDITOR)
+  isActive  Boolean  @default(true)
+  lastLogin DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("admin_users")
+}
+
+// Analytics tracking
+model PageView {
+  id        String   @id @default(cuid())
+  page      String
+  userAgent String?
+  ipAddress String?
+  referer   String?
+  createdAt DateTime @default(now())
+  
+  @@map("page_views")
+}
+
+enum SubmissionStatus {
+  NEW
+  REVIEWED
+  IN_PROGRESS
+  COMPLETED
+  ARCHIVED
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  INTERVIEW_SCHEDULED
+  INTERVIEW_COMPLETED
+  OFFER_EXTENDED
+  HIRED
+  REJECTED
+  WITHDRAWN
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+  VIEWER
+}

@@ -1,73 +1,70 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { MapPin, Clock, Users, Heart, Star, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from '@/lib/utils'
+import { fadeInUp, staggerContainer } from '@/lib/utils'
+
+interface JobPosting {
+  id: string
+  title: string
+  department: string
+  location: string
+  type: string
+  salary?: string
+  description: string
+  requirements: string[]
+  responsibilities: string[]
+  benefits: string[]
+  isActive: boolean
+  applicationCount: number
+  createdAt: string
+  updatedAt: string
+}
 
 export default function CareersPage() {
-  const openPositions = [
-    {
-      id: 1,
-      title: "Senior AI Engineer",
-      department: "Engineering",
-      location: "Amman, Jordan",
-      type: "Full-time",
-      experience: "5+ years",
-      description: "Lead the development of cutting-edge AI solutions and autonomous agents. Work with our team to build scalable AI systems that transform businesses.",
-      requirements: [
-        "5+ years experience in AI/ML development",
-        "Strong Python, TensorFlow/PyTorch skills",
-        "Experience with cloud platforms (AWS, Azure, GCP)",
-        "Knowledge of agentic AI systems preferred"
-      ]
-    },
-    {
-      id: 2,
-      title: "Agentic AI Researcher",
-      department: "Research & Development",
-      location: "Amman, Jordan / Remote",
-      type: "Full-time",
-      experience: "3+ years",
-      description: "Research and develop next-generation autonomous AI agents. Contribute to cutting-edge research in agentic AI and multi-agent systems.",
-      requirements: [
-        "PhD/Masters in AI, ML, or related field",
-        "Published research in AI/ML conferences",
-        "Experience with reinforcement learning",
-        "Strong mathematical and analytical skills"
-      ]
-    },
-    {
-      id: 3,
-      title: "AI Solutions Architect",
-      department: "Solutions",
-      location: "Dubai, UAE",
-      type: "Full-time",
-      experience: "4+ years",
-      description: "Design and architect AI solutions for enterprise clients across the MENA region. Lead technical discussions with clients and ensure successful AI implementations.",
-      requirements: [
-        "4+ years in solution architecture",
-        "Experience with enterprise AI implementations",
-        "Strong communication and presentation skills",
-        "Arabic and English fluency required"
-      ]
-    },
-    {
-      id: 4,
-      title: "Data Scientist",
-      department: "Data & Analytics",
-      location: "Amman, Jordan",
-      type: "Full-time",
-      experience: "2+ years",
-      description: "Analyze complex datasets to extract insights that drive AI model development. Work closely with engineering teams to implement data-driven solutions.",
-      requirements: [
-        "2+ years in data science/analytics",
-        "Proficiency in Python, R, SQL",
-        "Experience with big data technologies",
-        "Strong statistical analysis skills"
-      ]
+  const [openPositions, setOpenPositions] = useState<JobPosting[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchJobs()
+  }, [])
+
+  const fetchJobs = async () => {
+    try {
+      const response = await fetch('/api/jobs')
+      if (response.ok) {
+        const jobs = await response.json()
+        setOpenPositions(jobs)
+      }
+    } catch (error) {
+      console.error('Failed to fetch jobs:', error)
+      // Fallback to static data if API fails
+      setOpenPositions([
+        {
+          id: "1",
+          title: "Senior AI Engineer",
+          department: "Engineering",
+          location: "Amman, Jordan",
+          type: "Full-time",
+          description: "Lead the development of cutting-edge AI solutions and autonomous agents.",
+          requirements: [
+            "5+ years experience in AI/ML development",
+            "Strong Python, TensorFlow/PyTorch skills"
+          ],
+          responsibilities: [],
+          benefits: [],
+          isActive: true,
+          applicationCount: 0,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        }
+      ])
+    } finally {
+      setLoading(false)
     }
-  ]
+  }
 
   const benefits = [
     {
@@ -274,7 +271,17 @@ export default function CareersPage() {
           </motion.div>
 
           <div className="space-y-6">
-            {openPositions.map((position, index) => (
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+                <p className="mt-4 text-gray-600">Loading open positions...</p>
+              </div>
+            ) : openPositions.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-gray-600">No open positions available at the moment.</p>
+              </div>
+            ) : (
+              openPositions.map((position, index) => (
               <motion.div
                 key={position.id}
                 initial={{ opacity: 0, y: 40 }}
@@ -303,7 +310,7 @@ export default function CareersPage() {
                       </div>
                       <div className="flex items-center space-x-2">
                         <Users className="w-4 h-4" />
-                        <span>{position.experience}</span>
+                        <span>{position.applicationCount} applications</span>
                       </div>
                     </div>
                     
@@ -333,7 +340,8 @@ export default function CareersPage() {
                   </div>
                 </div>
               </motion.div>
-            ))}
+            ))
+            )}
           </div>
         </div>
       </section>

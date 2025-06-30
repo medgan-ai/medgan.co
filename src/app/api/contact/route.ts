@@ -1,31 +1,61 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
 
 export async function POST(request: NextRequest) {
   try {
-    const formData = await request.json()
-    
-    // Here you would typically:
-    // 1. Validate the form data
-    // 2. Save to database
-    // 3. Send email notification
-    // 4. Send to CRM/webhook (Zapier, etc.)
-    
-    // Log form submission (remove in production)
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Contact form submission:', formData)
+    const body = await request.json()
+    const { name, email, company, phone, message, service, budget, timeline } = body
+
+    // Basic validation
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { error: 'Name, email, and message are required' },
+        { status: 400 }
+      )
     }
-    
-    // Simulate processing time
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Invalid email format' },
+        { status: 400 }
+      )
+    }
+
+    // Store in database
+    const submission = await prisma.contactSubmission.create({
+      data: {
+        name,
+        email,
+        company,
+        phone,
+        message,
+        service,
+        budget,
+        timeline,
+        status: 'NEW'
+      }
+    })
+
+    console.log('✅ Contact submission saved to database:', submission.id)
+
+    // TODO: Send notification email to admin
+    // TODO: Send confirmation email to user
+    // TODO: Integrate with CRM system
+
     return NextResponse.json(
-      { message: 'Thank you for your message. We will get back to you within 24 hours.' },
+      { 
+        message: 'Thank you for your message! We will get back to you within 24 hours.',
+        success: true,
+        submissionId: submission.id
+      },
       { status: 200 }
     )
   } catch (error) {
     console.error('Contact form error:', error)
     return NextResponse.json(
-      { error: 'Failed to submit form. Please try again.' },
+      { error: 'Internal server error. Please try again later.' },
       { status: 500 }
     )
   }

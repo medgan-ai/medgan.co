@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, Users, Target, Lightbulb, Globe, Award, Zap } from 'lucide-react'
+import { Users, Target, Lightbulb, Globe } from 'lucide-react'
 import Link from 'next/link'
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from '@/lib/utils'
 
@@ -82,27 +82,37 @@ export default function AboutPage() {
 
   const milestones = [
     {
+      id: 1,
       year: "2024",
+      month: "Q1",
       title: "MedGAN Founded",
       description: "Established in Amman with a vision to democratize AI technology across the MENA region."
     },
     {
+      id: 2,
       year: "2024",
+      month: "Q2",
       title: "First Enterprise Client",
       description: "Successfully deployed agentic AI system for major healthcare provider, improving efficiency by 40%."
     },
     {
+      id: 3,
       year: "2024",
+      month: "Q3",
       title: "Series A Funding",
       description: "Secured $2M in funding to expand our AI research and development capabilities."
     },
     {
+      id: 4,
       year: "2025",
+      month: "Q1",
       title: "Regional Expansion",
       description: "Opened offices in Dubai and Cairo, serving clients across 15+ MENA countries."
     },
     {
+      id: 5,
       year: "2025",
+      month: "Q2",
       title: "AI Research Lab",
       description: "Launched dedicated research facility focusing on autonomous AI agents and Arabic language processing."
     }
@@ -138,7 +148,7 @@ export default function AboutPage() {
               variants={fadeInUp}
               className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed"
             >
-              We're a team of world-class AI researchers, engineers, and strategists 
+              We&apos;re a team of world-class AI researchers, engineers, and strategists 
               transforming how businesses operate through autonomous intelligence in the MENA region.
             </motion.p>
           </motion.div>
@@ -352,7 +362,7 @@ export default function AboutPage() {
           <div className="space-y-8">
             {milestones.map((milestone, index) => (
               <motion.div
-                key={milestone.year}
+                key={milestone.id}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -60 : 60 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -398,8 +408,8 @@ export default function AboutPage() {
               variants={fadeInUp}
               className="text-xl text-white/90 max-w-3xl mx-auto"
             >
-              Whether you're looking to transform your business or join our team, 
-              we'd love to hear from you.
+              Whether you&apos;re looking to transform your business or join our team, 
+              we&apos;d love to hear from you.
             </motion.p>
             <motion.div 
               variants={fadeInUp}

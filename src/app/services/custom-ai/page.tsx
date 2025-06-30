@@ -180,8 +180,8 @@ export default function CustomAIPage() {
                 <h3 className="text-xl font-bold text-gray-900 mb-4">{solution.title}</h3>
                 <p className="text-gray-600 mb-6 leading-relaxed">{solution.description}</p>
                 <ul className="space-y-2">
-                  {solution.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center space-x-3">
+                  {solution.features.map((feature) => (
+                    <li key={feature} className="flex items-center space-x-3">
                       <div className="w-2 h-2 bg-secondary rounded-full"></div>
                       <span className="text-sm text-gray-700">{feature}</span>
                     </li>
@@ -224,8 +224,8 @@ export default function CustomAIPage() {
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">{industry.name}</h3>
                 <p className="text-gray-600 mb-6 leading-relaxed">{industry.description}</p>
                 <div className="grid grid-cols-2 gap-3">
-                  {industry.applications.map((app, appIndex) => (
-                    <div key={appIndex} className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg p-3 text-center">
+                  {industry.applications.map((app) => (
+                    <div key={app} className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg p-3 text-center">
                       <span className="text-sm font-medium text-gray-700">{app}</span>
                     </div>
                   ))}

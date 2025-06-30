@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Brain, Zap, Shield, CheckCircle, Star } from 'lucide-react'
 import Link from 'next/link'
-import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from '@/lib/utils'
+import { fadeInUp, staggerContainer } from '@/lib/utils'
 
 export default function ServicesPage() {
   const services = [

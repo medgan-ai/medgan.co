@@ -1,9 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, Brain, Zap, Shield, Globe, Users, TrendingUp } from 'lucide-react'
+import { ArrowRight, Brain, Zap, Shield } from 'lucide-react'
 import Link from 'next/link'
-import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from '@/lib/utils'
+import { fadeInUp, staggerContainer } from '@/lib/utils'
 
 export default function HomePage() {
   const features = [
@@ -188,7 +188,7 @@ export default function HomePage() {
             variants={staggerContainer}
             className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
           >
-            {stats.map((stat, index) => (
+            {stats.map((stat) => (
               <motion.div
                 key={stat.label}
                 variants={fadeInUp}
@@ -229,7 +229,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {testimonials.map((testimonial, index) => (
               <motion.div
-                key={index}
+                key={testimonial.author}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}

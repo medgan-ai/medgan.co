@@ -1,9 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, TrendingUp, Users, Clock, CheckCircle, ExternalLink } from 'lucide-react'
+import { TrendingUp, Users, Clock, CheckCircle, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
-import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from '@/lib/utils'
+import { fadeInUp, staggerContainer } from '@/lib/utils'
 
 export default function CaseStudiesPage() {
   const caseStudies = [

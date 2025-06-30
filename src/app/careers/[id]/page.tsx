@@ -1,138 +1,59 @@
 'use client'
 
-import { useState, use } from 'react'
+import { useState, useEffect, use, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowLeft, MapPin, Clock, Users, Upload, Send } from 'lucide-react'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 
-// Job data - in a real app this would come from a database
-const jobData = {
-  1: {
-    title: "Senior AI Engineer",
-    department: "Engineering",
-    location: "Amman, Jordan",
-    type: "Full-time",
-    experience: "5+ years",
-    description: "Lead the development of cutting-edge AI solutions and autonomous agents. Work with our team to build scalable AI systems that transform businesses.",
-    requirements: [
-      "5+ years experience in AI/ML development",
-      "Strong Python, TensorFlow/PyTorch skills",
-      "Experience with cloud platforms (AWS, Azure, GCP)",
-      "Knowledge of agentic AI systems preferred"
-    ],
-    responsibilities: [
-      "Design and implement advanced AI algorithms and models",
-      "Lead a team of AI engineers and researchers",
-      "Collaborate with product teams to define AI requirements",
-      "Optimize AI models for production deployment",
-      "Mentor junior team members and promote best practices"
-    ],
-    benefits: [
-      "Competitive salary and equity package",
-      "Comprehensive health insurance",
-      "Professional development budget",
-      "Flexible working arrangements",
-      "Cutting-edge technology stack"
-    ]
-  },
-  2: {
-    title: "Agentic AI Researcher",
-    department: "Research & Development",
-    location: "Amman, Jordan / Remote",
-    type: "Full-time",
-    experience: "3+ years",
-    description: "Research and develop next-generation autonomous AI agents. Contribute to cutting-edge research in agentic AI and multi-agent systems.",
-    requirements: [
-      "PhD/Masters in AI, ML, or related field",
-      "Published research in AI/ML conferences",
-      "Experience with reinforcement learning",
-      "Strong mathematical and analytical skills"
-    ],
-    responsibilities: [
-      "Conduct research in autonomous AI agents",
-      "Develop novel algorithms for multi-agent systems",
-      "Publish research findings in top-tier conferences",
-      "Collaborate with engineering teams on implementation",
-      "Stay current with latest AI research trends"
-    ],
-    benefits: [
-      "Research-focused environment",
-      "Conference attendance and publication support",
-      "Access to high-performance computing resources",
-      "Collaboration with leading AI researchers",
-      "Patent and IP recognition program"
-    ]
-  },
-  3: {
-    title: "AI Solutions Architect",
-    department: "Solutions",
-    location: "Dubai, UAE",
-    type: "Full-time",
-    experience: "4+ years",
-    description: "Design and architect AI solutions for enterprise clients across the MENA region. Lead technical discussions with clients and ensure successful AI implementations.",
-    requirements: [
-      "4+ years in solution architecture",
-      "Experience with enterprise AI implementations",
-      "Strong communication and presentation skills",
-      "Arabic and English fluency required"
-    ],
-    responsibilities: [
-      "Design AI solutions for enterprise clients",
-      "Lead technical pre-sales activities",
-      "Develop solution architectures and technical proposals",
-      "Collaborate with sales and delivery teams",
-      "Ensure successful project implementations"
-    ],
-    benefits: [
-      "Travel opportunities across MENA region",
-      "Client-facing role with high visibility",
-      "Solution design autonomy",
-      "Cross-cultural work environment",
-      "Performance-based bonuses"
-    ]
-  },
-  4: {
-    title: "Data Scientist",
-    department: "Data & Analytics",
-    location: "Amman, Jordan",
-    type: "Full-time",
-    experience: "2+ years",
-    description: "Analyze complex datasets to extract insights that drive AI model development. Work closely with engineering teams to implement data-driven solutions.",
-    requirements: [
-      "2+ years in data science/analytics",
-      "Proficiency in Python, R, SQL",
-      "Experience with big data technologies",
-      "Strong statistical analysis skills"
-    ],
-    responsibilities: [
-      "Analyze large datasets to extract actionable insights",
-      "Build predictive models and statistical analyses",
-      "Collaborate with AI engineers on data preprocessing",
-      "Create data visualizations and reports",
-      "Ensure data quality and governance standards"
-    ],
-    benefits: [
-      "Access to diverse datasets",
-      "Latest data science tools and platforms",
-      "Mentorship from senior data scientists",
-      "Continuous learning opportunities",
-      "Impact on AI product development"
-    ]
-  }
+interface JobPosting {
+  id: string
+  title: string
+  department: string
+  location: string
+  type: string
+  salary?: string
+  description: string
+  requirements: string[]
+  responsibilities: string[]
+  benefits: string[]
+  isActive: boolean
+  applicationCount: number
+  createdAt: string
+  updatedAt: string
 }
 
-interface JobApplicationPageProps {
-  params: Promise<{
-    id: string
-  }>
+interface JobPageProps {
+  params: Promise<{ id: string }>
 }
 
-export default function JobApplicationPage({ params }: JobApplicationPageProps) {
+export default function JobPage({ params }: JobPageProps) {
   const resolvedParams = use(params)
-  const jobId = parseInt(resolvedParams.id)
-  const job = jobData[jobId as keyof typeof jobData]
-  
+  const [job, setJob] = useState<JobPosting | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [notFoundError, setNotFoundError] = useState(false)
+
+  const fetchJob = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/jobs/${resolvedParams.id}`)
+      if (response.ok) {
+        const jobData = await response.json()
+        setJob(jobData)
+      } else if (response.status === 404) {
+        setNotFoundError(true)
+      }
+    } catch (error) {
+      console.error('Failed to fetch job:', error)
+      setNotFoundError(true)
+    } finally {
+      setLoading(false)
+    }
+  }, [resolvedParams.id])
+
+  useEffect(() => {
+    fetchJob()
+  }, [fetchJob])
+  // (should already be imported)
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -143,15 +64,15 @@ export default function JobApplicationPage({ params }: JobApplicationPageProps) 
     education: '',
     portfolio: '',
     coverLetter: '',
-    resumeFile: null as File | null
+    resumeFile: null as File | null,
+    linkedin: '',
+    skills: '',
+    expectedSalary: '',
+    startDate: ''
   })
   
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
-
-  if (!job) {
-    notFound()
-  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -173,15 +94,71 @@ export default function JobApplicationPage({ params }: JobApplicationPageProps) 
     e.preventDefault()
     setIsSubmitting(true)
     
-    // Simulate form submission
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      setIsSubmitted(true)
+      // Prepare application data
+      const applicationData = {
+        jobId: resolvedParams.id,
+        jobTitle: job!.title,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        resumeUrl: null, // TODO: Implement file upload
+        coverLetter: formData.coverLetter || null,
+        linkedin: formData.portfolio || null, // Using portfolio field as linkedin for now
+        portfolio: formData.portfolio || null,
+        experience: formData.experience,
+        education: formData.education,
+        skills: formData.skills ? formData.skills.split(',').map(s => s.trim()) : [],
+        salary: formData.expectedSalary || null,
+        availability: formData.startDate || null
+      }
+
+      // Submit to API
+      const response = await fetch('/api/applications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(applicationData),
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setIsSubmitted(true)
+        console.log('✅ Application submitted successfully:', result.applicationId)
+      } else {
+        throw new Error(result.error || 'Failed to submit application')
+      }
     } catch (error) {
       console.error('Application submission error:', error)
+      alert('Failed to submit application. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    )
+  }
+
+  if (notFoundError || !job) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Job Not Found</h1>
+          <p className="text-gray-600 mb-8">The job you're looking for doesn't exist or has been removed.</p>
+          <Link href="/careers" className="text-primary hover:underline">
+            ← Back to Careers
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   if (isSubmitted) {
@@ -278,7 +255,7 @@ export default function JobApplicationPage({ params }: JobApplicationPageProps) 
                     </div>
                     <div className="flex items-center">
                       <Users className="w-4 h-4 mr-2" />
-                      {job.experience}
+                      {job.applicationCount} applications
                     </div>
                   </div>
                 </div>
@@ -326,8 +303,8 @@ export default function JobApplicationPage({ params }: JobApplicationPageProps) 
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Requirements</h2>
                 <ul className="space-y-3">
-                  {job.requirements.map((req, index) => (
-                    <li key={index} className="flex items-start space-x-3">
+                  {job.requirements.map((req) => (
+                    <li key={req} className="flex items-start space-x-3">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
                       <span className="text-gray-700">{req}</span>
                     </li>
@@ -338,8 +315,8 @@ export default function JobApplicationPage({ params }: JobApplicationPageProps) 
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Responsibilities</h2>
                 <ul className="space-y-3">
-                  {job.responsibilities.map((resp, index) => (
-                    <li key={index} className="flex items-start space-x-3">
+                  {job.responsibilities.map((resp) => (
+                    <li key={resp} className="flex items-start space-x-3">
                       <div className="w-2 h-2 bg-secondary rounded-full mt-2"></div>
                       <span className="text-gray-700">{resp}</span>
                     </li>
@@ -358,8 +335,8 @@ export default function JobApplicationPage({ params }: JobApplicationPageProps) 
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">What We Offer</h2>
                 <ul className="space-y-3">
-                  {job.benefits.map((benefit, index) => (
-                    <li key={index} className="flex items-start space-x-3">
+                  {job.benefits.map((benefit) => (
+                    <li key={benefit} className="flex items-start space-x-3">
                       <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
                       <span className="text-gray-700">{benefit}</span>
                     </li>
