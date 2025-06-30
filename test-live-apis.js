@@ -1,7 +1,7 @@
 // Live Site API Testing Script
 // Run this with: node test-live-apis.js
 
-const BASE_URL = 'https://medgan-website-cgapt08dv-hamzas-projects-badc4cfe.vercel.app'
+const BASE_URL = 'https://medgan-website-omega.vercel.app'
 
 async function testAPI(endpoint, method = 'GET', data = null) {
   try {
