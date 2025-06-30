@@ -319,7 +319,7 @@ export default function CareersPage() {
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2">Key Requirements:</h4>
                       <ul className="text-gray-600 space-y-1">
-                        {position.requirements.slice(0, 2).map((req, idx) => (
+                        {(position.requirements || []).slice(0, 2).map((req, idx) => (
                           <li key={idx} className="flex items-start space-x-2">
                             <span className="text-primary mt-1">•</span>
                             <span>{req}</span>
