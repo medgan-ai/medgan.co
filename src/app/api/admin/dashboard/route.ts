@@ -3,6 +3,11 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
+    // Check if we're in a build environment without database access
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 })
+    }
+
     // TODO: Add authentication check
     // const session = await getServerSession(authOptions)
     // if (!session || !session.user.isAdmin) {
