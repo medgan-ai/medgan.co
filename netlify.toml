@@ -1,12 +1,13 @@
 [build]
-  command = "npm run build"
+  command = "npm run build:netlify"
   publish = ".next"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
 
 [build.environment]
   NODE_VERSION = "18"
+
+# Essential runtime for Next.js on Netlify
+[build.processing]
+  skip_processing = false
 
 # Redirect all server-side routes to Next.js
 [[redirects]]
@@ -18,6 +19,3 @@
   from = "/*"
   to = "/index.html"
   status = 200
-
-[functions]
-  directory = ".netlify/functions"
