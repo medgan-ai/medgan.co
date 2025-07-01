@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Users, Target, Lightbulb, Globe } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from '@/lib/utils'
 
 export default function AboutPage() {
@@ -31,52 +32,28 @@ export default function AboutPage() {
 
   const team = [
     {
-      name: "Dr. Ahmad Al-Rashid",
-      position: "CEO & Founder",
-      bio: "Former AI researcher at MIT with 15+ years in machine learning and autonomous systems. Led AI transformation projects for Fortune 500 companies.",
-      image: "/team/ahmad-placeholder.jpg",
-      linkedin: "https://linkedin.com/in/ahmad-alrashid",
+      name: "Eng. Mahmoud AbuAwd",
+      position: "Founder & CEO",
+      bio: "Mahmoud AbuAwd, AWS Certified AI Practitioner & ML Engineer with 2+ years of experience in deep learning, generative AI, and embedded systems, specializing in end-to-end AI solutions for computer vision, NLP, and medical imaging.",
+      image: "/images/mahmoud.JPG",
+      linkedin: "https://www.linkedin.com/in/mahmoud-abuawd-247290225/",
       expertise: ["Agentic AI", "Machine Learning", "Business Strategy"]
     },
     {
-      name: "Sarah Chen",
-      position: "CTO",
-      bio: "Ex-Google AI engineer specializing in large language models and multi-agent systems. PhD in Computer Science from Stanford University.",
-      image: "/team/sarah-placeholder.jpg",
-      linkedin: "https://linkedin.com/in/sarah-chen-ai",
+      name: "Eng. Hamza Nasser",
+      position: "Founder & CTO",
+      bio: "AI & Robotics graduate from Al-Balqa' Applied University with hands-on experience in machine learning, computer vision, and embedded systems, passionate about building real-world AI solutions that create meaningful impact.",
+      image: "/images/HAMZA.JPG",
+      linkedin: "https://www.linkedin.com/in/hamza-waseem-nasser/",
       expertise: ["LLMs", "Multi-Agent Systems", "Cloud Architecture"]
     },
     {
-      name: "Omar Khalil",
-      position: "Head of AI Solutions",
-      bio: "AI implementation specialist with deep MENA market knowledge. Previously led digital transformation at leading regional banks.",
-      image: "/team/omar-placeholder.jpg",
-      linkedin: "https://linkedin.com/in/omar-khalil-ai",
+      name: "Eng. Mohammed Zaloom",
+      position: "Founder & Head of AI Solutions",
+      bio: "Recent AI and Robotics graduate passionate about applying emerging technologies to solve real-world problems through innovative, data-driven solutions..",
+      image: "/images/ZALOOM.JPG",
+      linkedin: "https://www.linkedin.com/in/mozaloom/",
       expertise: ["AI Implementation", "Digital Transformation", "Enterprise Solutions"]
-    },
-    {
-      name: "Dr. Layla Mansouri",
-      position: "Lead AI Researcher",
-      bio: "PhD in Artificial Intelligence from University of Jordan. Published researcher in autonomous agents and reinforcement learning.",
-      image: "/team/layla-placeholder.jpg",
-      linkedin: "https://linkedin.com/in/layla-mansouri-phd",
-      expertise: ["Research & Development", "Autonomous Agents", "Deep Learning"]
-    },
-    {
-      name: "Hassan Al-Zahra",
-      position: "Business Development Director",
-      bio: "15+ years in MENA business development. Expert in identifying AI opportunities and building strategic partnerships.",
-      image: "/team/hassan-placeholder.jpg",
-      linkedin: "https://linkedin.com/in/hassan-alzahra",
-      expertise: ["Business Development", "Strategic Partnerships", "Market Analysis"]
-    },
-    {
-      name: "Rania Khoury",
-      position: "UX/AI Design Lead",
-      bio: "Award-winning designer specializing in AI-human interfaces. Creates intuitive experiences for complex AI systems.",
-      image: "/team/rania-placeholder.jpg",
-      linkedin: "https://linkedin.com/in/rania-khoury-design",
-      expertise: ["AI/UX Design", "Human-AI Interaction", "Product Design"]
     }
   ]
 
@@ -299,12 +276,14 @@ export default function AboutPage() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
               >
-                <div className="h-64 bg-gradient-to-br from-[#1230AE]/10 to-[#6C48C5]/10 flex items-center justify-center">
-                  <div className="w-32 h-32 bg-gradient-to-r from-[#1230AE] to-[#6C48C5] rounded-full flex items-center justify-center">
-                    <span className="text-white text-4xl font-bold">
-                      {member.name.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
+                <div className="h-64 relative bg-gradient-to-br from-[#1230AE]/10 to-[#6C48C5]/10 flex items-center justify-center">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
@@ -324,6 +303,8 @@ export default function AboutPage() {
                   
                   <Link 
                     href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-[#1230AE] hover:text-[#6C48C5] transition-colors text-sm font-semibold"
                   >
                     Connect on LinkedIn →

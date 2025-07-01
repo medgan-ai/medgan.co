@@ -85,7 +85,7 @@ const Footer = () => {
     { name: 'LinkedIn', href: 'https://linkedin.com/company/medgan', icon: Linkedin },
     { name: 'Twitter', href: 'https://twitter.com/medgan_ai', icon: Twitter },
     { name: 'GitHub', href: 'https://github.com/medgan', icon: Github },
-    { name: 'Facebook', href: 'https://facebook.com/medgan', icon: Facebook },
+    { name: 'Facebook', href: 'https://www.facebook.com/company.medganai', icon: Facebook },
   ]
 
   return (
@@ -96,9 +96,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-[#1230AE] to-[#6C48C5] rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">M</span>
-              </div>
+              
               <span className="text-xl font-bold">MedGAN</span>
             </Link>
             <p className="text-gray-300 mb-6 max-w-md">
@@ -114,11 +112,11 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="w-4 h-4" />
-                <span>hello@medgan.io</span>
+                <span>Contact@medgan.co</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4" />
-                <span>+962 (0) 123 456 789</span>
+                <span>+962 79 1034 222</span>
               </div>
             </div>
           </div>

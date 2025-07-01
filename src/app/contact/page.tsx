@@ -55,16 +55,16 @@ export default function ContactPage() {
     {
       icon: Mail,
       title: "Email Us",
-      value: COMPANY_INFO.email,
+      value: "contact@medgan.co",
       description: "Get in touch via email",
-      href: `mailto:${COMPANY_INFO.email}`
+      href: "mailto:contact@medgan.co"
     },
     {
       icon: Phone,
       title: "Call Us",
-      value: COMPANY_INFO.phone,
+      value: "+962 7 9103 4222",
       description: "Speak with our team",
-      href: `tel:${COMPANY_INFO.phone}`
+      href: "tel:+962791034222"
     },
     {
       icon: MapPin,

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Menu, X, ChevronDown } from 'lucide-react'
+import Image from 'next/image'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -31,13 +32,20 @@ const Header = () => {
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-200 z-50 shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-xl">M</span>
-            </div>
-            <span className="text-2xl font-bold text-gray-900">MedGAN</span>
-          </Link>
+          {/* Logo - Made bigger and moved right */}
+          <div className="flex-1"> {/* This pushes everything right */}
+            <Link href="/" className="flex items-center justify-start ml-10"> {/* Added ml-8 for right shift */}
+              <div className="relative w-65 h-25"> {/* Increased size from w-40 h-12 to w-52 h-16 */}
+                <Image 
+                  src="/images/submarine_launched_logo-removebg-preview.png"
+                  alt="Company Logo"
+                  fill
+                  className="object-contain object-left"
+                  priority
+                />
+              </div>
+            </Link>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-1">
