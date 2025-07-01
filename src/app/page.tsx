@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Brain, Zap, Shield, Bot, Network, Cpu } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from '@/lib/utils'
+import { fadeInUp, staggerContainer } from '@/lib/utils'
 
 export default function HomePage() {
   const features = [
@@ -350,110 +350,72 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Speed & Results Section */}
-<section className="py-24 bg-white">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <motion.div
-      initial="initial"
-      whileInView="animate"
-      viewport={{ once: true }}
-      variants={staggerContainer}
-      className="text-center mb-20"
-    >
-      <motion.div 
-        variants={fadeInUp}
-        className="inline-flex items-center bg-amber-50 text-amber-800 px-4 py-2 rounded-full text-sm font-medium mb-6"
-      >
-        <Zap className="w-4 h-4 mr-2" />
-        Fast-track your AI transformation
-      </motion.div>
-      <motion.h2 
-        variants={fadeInUp}
-        className="text-5xl md:text-6xl font-bold text-gray-900 mb-6"
-      >
-        AI Solutions at <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Warp Speed</span>
-      </motion.h2>
-      <motion.p 
-        variants={fadeInUp}
-        className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
-      >
-        We deliver enterprise-grade AI solutions in weeks, not months - with measurable results from day one.
-      </motion.p>
-    </motion.div>
-
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {[
-        {
-          title: "Lightning Deployment",
-          stat: "2-4 Weeks",
-          description: "Our modular AI frameworks get you operational faster than traditional development cycles.",
-          icon: <LightningBolt className="w-8 h-8 text-white" />,
-          color: "from-purple-600 to-indigo-600"
-        },
-        {
-          title: "Proven ROI",
-          stat: "3-5x Faster",
-          description: "Clients see measurable ROI within 30 days of implementation on average.",
-          icon: <TrendingUp className="w-8 h-8 text-white" />,
-          color: "from-green-600 to-teal-600"
-        },
-        {
-          title: "Elite Team",
-          stat: "10+ Years XP",
-          description: "Battle-tested AI architects who've built solutions for Fortune 500 companies.",
-          icon: <ShieldCheck className="w-8 h-8 text-white" />,
-          color: "from-blue-600 to-cyan-600"
-        }
-      ].map((benefit, index) => (
-        <motion.div
-          key={benefit.title}
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: index * 0.2 }}
-          className="group relative overflow-hidden bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
-        >
-          <div className={`absolute -right-10 -top-10 w-36 h-36 bg-gradient-to-br ${benefit.color} rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-500`}></div>
-          <div className={`w-16 h-16 bg-gradient-to-r ${benefit.color} rounded-xl flex items-center justify-center mb-6 relative z-10`}>
-            {benefit.icon}
-          </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-2 relative z-10">{benefit.title}</h3>
-          <p className="text-4xl font-extrabold bg-gradient-to-r bg-clip-text text-transparent mb-4 ${benefit.color} relative z-10">
-            {benefit.stat}
-          </p>
-          <p className="text-gray-600 leading-relaxed relative z-10">{benefit.description}</p>
-          <div className="mt-6 relative z-10">
-            <span className="inline-block w-8 h-0.5 bg-gradient-to-r from-primary to-secondary"></span>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: 0.4 }}
-      className="mt-20 bg-gradient-to-r from-primary to-secondary rounded-2xl p-0.5"
-    >
-      <div className="bg-white rounded-xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
-        <div className="mb-6 md:mb-0 md:mr-8">
-          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Ready to supercharge your business?</h3>
-          <p className="text-gray-600">Get your custom AI solution deployed in record time.</p>
-        </div>
-        <div className="flex-shrink-0">
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-xl text-white font-medium hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
+      {/* Why Work With Us Section */}
+      <section className="py-24 bg-background-light">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="text-center mb-20"
           >
-            Start in 48 Hours
-            <ArrowRight className="w-5 h-5 ml-3" />
-          </Link>
+            <motion.h2 
+              variants={fadeInUp}
+              className="text-5xl md:text-6xl font-bold text-gray-900 mb-8"
+            >
+              Why Work With Us
+            </motion.h2>
+            <motion.p 
+              variants={fadeInUp}
+              className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            >
+              End-to-end AI solutions designed to transform your business operations and drive measurable results.
+            </motion.p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              {
+                title: "AI Strategy Consulting",
+                description: "We develop customized AI roadmaps aligned with your business objectives to ensure successful implementation and maximum ROI.",
+                icon: <Brain className="w-10 h-10 text-white" />
+              },
+              {
+                title: "Custom AI Development",
+                description: "Tailored AI solutions built from the ground up to address your specific business challenges and operational needs.",
+                icon: <Zap className="w-10 h-10 text-white" />
+              },
+              {
+                title: "Agentic AI Integration",
+                description: "Implementation of autonomous AI agents that can think, learn and act independently within your existing systems.",
+                icon: <Shield className="w-10 h-10 text-white" />
+              }
+            ].map((service, index) => (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className="bg-white p-10 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:-translate-y-2"
+              >
+                <div className="w-20 h-20 bg-gradient-to-r from-primary to-secondary rounded-2xl flex items-center justify-center mb-8">
+                  {service.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{service.description}</p>
+                <Link 
+                  href="/services"
+                  className="mt-6 inline-flex items-center text-primary font-semibold hover:text-secondary transition-colors"
+                >
+                  Learn more <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
-    </motion.div>
-  </div>
-</section>
+      </section>
       
       {/* CTA Section */}
       <section className="py-24 bg-gray-900 relative overflow-hidden">
