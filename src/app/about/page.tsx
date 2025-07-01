@@ -29,15 +29,14 @@ export default function AboutPage() {
       description: "Deep understanding of the regional market, culture, and business environment across the MENA region."
     }
   ]
-
   const team = [
     {
-      name: "Eng. Mahmoud AbuAwd",
+      name: "Eng. Mohammed Zaloom",
       position: "Founder & CEO",
-      bio: "Mahmoud AbuAwd, AWS Certified AI Practitioner & ML Engineer with 2+ years of experience in deep learning, generative AI, and embedded systems, specializing in end-to-end AI solutions for computer vision, NLP, and medical imaging.",
-      image: "/images/mahmoud.JPG",
-      linkedin: "https://www.linkedin.com/in/mahmoud-abuawd-247290225/",
-      expertise: ["Agentic AI", "Machine Learning", "Business Strategy"]
+      bio: "Recent AI and Robotics graduate passionate about applying emerging technologies to solve real-world problems through innovative, data-driven solutions..",
+      image: "/images/ZALOOM.JPG",
+      linkedin: "https://www.linkedin.com/in/mozaloom/",
+      expertise: ["AI Implementation", "Digital Transformation", "Enterprise Solutions"]
     },
     {
       name: "Eng. Hamza Nasser",
@@ -48,12 +47,12 @@ export default function AboutPage() {
       expertise: ["LLMs", "Multi-Agent Systems", "Cloud Architecture"]
     },
     {
-      name: "Eng. Mohammed Zaloom",
+      name: "Eng. Mahmoud AbuAwd",
       position: "Founder & Head of AI Solutions",
-      bio: "Recent AI and Robotics graduate passionate about applying emerging technologies to solve real-world problems through innovative, data-driven solutions..",
-      image: "/images/ZALOOM.JPG",
-      linkedin: "https://www.linkedin.com/in/mozaloom/",
-      expertise: ["AI Implementation", "Digital Transformation", "Enterprise Solutions"]
+      bio: "Mahmoud AbuAwd, AWS Certified AI Practitioner & ML Engineer with 2+ years of experience in deep learning, generative AI, and embedded systems, specializing in end-to-end AI solutions for computer vision, NLP, and medical imaging.",
+      image: "/images/mahmoud.JPG",
+      linkedin: "https://www.linkedin.com/in/mahmoud-abuawd-247290225/",
+      expertise: ["Agentic AI", "Machine Learning", "Business Strategy"]
     }
   ]
 
