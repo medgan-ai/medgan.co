@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/integrations/supabase/client'
 
-// Simple CUID-like ID generator that matches the format in your database
-function generateCuid(): string {
-  const timestamp = Date.now().toString(36);
-  const randomPart1 = Math.random().toString(36).substring(2, 8);
-  const randomPart2 = Math.random().toString(36).substring(2, 8);
-  const randomPart3 = Math.random().toString(36).substring(2, 8);
-  return `cmc${timestamp}${randomPart1}${randomPart2}${randomPart3}`;
+async function getPrisma() {
+  const { prisma } = await import('@/lib/prisma')
+  return prisma
 }
 
 export async function POST(request: NextRequest) {
@@ -30,12 +25,20 @@ export async function POST(request: NextRequest) {
         { error: 'Invalid email format' },
         { status: 400 }
       )
-    }    // Store in database using Supabase
-    const submissionId = generateCuid();
-    const { error: insertError } = await supabase
-      .from('contact_submissions')
-      .insert({
-        id: submissionId,
+    }
+
+    // Check if database URL is configured
+    if (!process.env.DATABASE_URL) {
+      console.error('DATABASE_URL not configured')
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
+    }
+
+    // Lazy load Prisma to avoid initialization issues
+    const prisma = await getPrisma()
+
+    // Store in database using Prisma
+    const submission = await prisma.contactSubmission.create({
+      data: {
         name,
         email,
         company,
@@ -44,20 +47,11 @@ export async function POST(request: NextRequest) {
         service,
         budget,
         timeline,
-        status: 'NEW',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      })
+        status: 'NEW'
+      }
+    })
 
-    if (insertError) {
-      console.error('Contact form error:', insertError)
-      return NextResponse.json(
-        { error: 'Failed to submit contact form' },
-        { status: 500 }
-      )
-    }
-
-    console.log('✅ Contact submission saved to database:', submissionId)
+    console.log('✅ Contact submission saved to database:', submission.id)
 
     // TODO: Send notification email to admin
     // TODO: Send confirmation email to user
@@ -67,7 +61,7 @@ export async function POST(request: NextRequest) {
       { 
         message: 'Thank you for your message! We will get back to you within 24 hours.',
         success: true,
-        submissionId: submissionId
+        submissionId: submission.id
       },
       { status: 200 }
     )

@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Brain, Zap, Shield, Bot, Network, Cpu } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { fadeInUp, staggerContainer } from '@/lib/utils'
 
 export default function HomePage() {
@@ -35,7 +34,8 @@ export default function HomePage() {
     { number: "15+", label: "Countries Served" }
   ]
 
-  const testimonials = [
+  /* 
+  const testimonials = [ // Testimonials data - unused for now in this component
     {
       quote: "MedGAN transformed our healthcare operations with their agentic AI system. We've seen 40% improvement in patient care efficiency.",
       author: "Dr. Sarah Al-Mansouri",
@@ -55,6 +55,7 @@ export default function HomePage() {
       company: "Digital Finance Solutions"
     }
   ]
+  */
 
   return (
     <div className="pt-20">

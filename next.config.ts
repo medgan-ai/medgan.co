@@ -6,12 +6,12 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
   // Skip building API routes during static generation
   staticPageGenerationTimeout: 1000,
-  // Skip type checking and linting during build for faster deployment
+  // Enable type checking for production builds
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
 };
 

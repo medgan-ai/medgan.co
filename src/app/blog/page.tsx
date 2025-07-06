@@ -1,12 +1,11 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Calendar, User, ArrowRight, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { fadeInUp, staggerContainer } from '@/lib/utils'
 
 export default function BlogPage() {
-  const blogPosts = [] // Empty array to show no blogs
+  // const blogPosts = [] // Empty array to show no blogs - unused for now
 
   const categories = ["All", "AI Technology", "Strategy", "Development", "Healthcare", "Business", "Ethics"]
 
